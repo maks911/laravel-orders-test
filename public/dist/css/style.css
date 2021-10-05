@@ -1,0 +1,25 @@
+body {
+    font-size: 15px;
+}
+.temperature {
+    padding-top: 30px;
+}
+.content-wrapper {
+    height: auto;
+}
+.pagination__item {
+    padding: 6px;
+}
+.pagination {
+    flex-wrap: wrap;
+}
+.form {
+    padding-left: 20px;
+    padding-top: 50px;
+    max-width: 400px;
+}
+.success {
+    padding: 10px;
+    background-color: green;
+    color: #FFFFFF;
+}

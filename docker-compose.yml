@@ -1,0 +1,52 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: maks
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: kitchen
+    container_name: lar-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - lar
+
+  db:
+    image: mariadb:10.3
+    volumes:
+      - container-volume:/var/lib/mysql
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    container_name: lar-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: shehtman.mi
+      MYSQL_PASSWORD: shehtman.mi
+      MYSQL_USER: laravel
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - lar
+
+  nginx:
+    image: nginx:alpine
+    container_name: lar-nginx
+    restart: unless-stopped
+    ports:
+      - "8083:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - lar
+
+networks:
+  lar:
+    driver: bridge
+volumes:
+  container-volume:
