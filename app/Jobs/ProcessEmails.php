@@ -40,24 +40,16 @@ class ProcessEmails implements ShouldQueue
      */
     public function handle()
     {
-        $emailMessage = "Заказ № $this->order->id завершен.<br>";
-        $emailMessage .= '<br><br>Состав заказа:<br>';
-        foreach ($this->order->products as $key => $product) {
-            $emailMessage .= $product->name;
-            if ($key !== count($this->order->products) - 1) {
-                $emailMessage .= ',';
-            }
-        }
         $this->order->calculateTotal();
-        $emailMessage .= "<br><br>Стоимость: $this->order->total";
         foreach ($this->emails() as $email) {
-            Mail::send('emails.completed', array('key' => 'value'), function($message)
-            {
-                $message->to('foo@example.com', 'Джон Смит')->subject('Привет!');
-            });
-            $headers  = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-            mail($email, 'Заверешенный заказ', $emailMessage, implode("\r\n", $headers));
+            try {
+                Mail::send('emails.completed', ['order' => $this->order], function($message) use ($email)
+                {
+                    $message->to($email)->subject('Завершенный заказ');
+                });
+            } catch (\Exception $ex) {
+                echo $ex->getMessage();
+            }
         }
     }
 }

@@ -20,8 +20,8 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Партнер</th>
-            <th scope="col">Стоимость заказа:</th>
-            <th scope="col">Состав Заказа:</th>
+            <th scope="col">Стоимость заказа</th>
+            <th scope="col">Состав Заказа</th>
             <th scope="col">Статус</th>
         </tr>
         </thead>

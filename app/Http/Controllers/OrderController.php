@@ -54,7 +54,7 @@ class OrderController extends Controller
         if ($order->updateOrder($data) && (int) $data['status'] === 20) {
             $this->notifyEmail($order);
         }
-        return redirect('orders')->with('success', "ЗАказ успешно обновлен!!")->with('id', $id);
+        return redirect('orders')->with('success', "Заказ успешно обновлен!!")->with('id', $id);
     }
 
     private function notifyEmail($order): void
